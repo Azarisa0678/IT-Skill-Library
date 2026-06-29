@@ -1,6 +1,3 @@
-[README.md](https://github.com/user-attachments/files/29453873/README.md)
-# IT Skill Library
-
 # 🗂️ IT Skill Library
 
 > **10 spezialisierte Claude-Skills für IT, Security und Compliance** — entwickelt für den DACH-Raum mit Fokus auf deutsche Regulierung (NIS2, DSGVO, BSI IT-Grundschutz, ISO 27001, DORA, IEC 62443).
@@ -14,19 +11,19 @@
 
 ## 🚀 Quickstart
 
-### 1. Skill herunterladen
+### 1. Skill-Navigator öffnen
 
-Alle Skills sind als `.skill`-Pakete in den [Releases](../../releases) verfügbar.
+👉 **[Interaktiver Skill-Navigator](https://azarisa0678.github.io/IT-Skill-Library/skill-navigator.html)** — findet den richtigen Skill für deine Situation.
 
-### 2. In Claude installieren
+### 2. Skill herunterladen
+
+Alle Skills sind als `.skill`-Pakete in den [Releases](https://github.com/azarisa0678/IT-Skill-Library/releases) verfügbar.
+
+### 3. In Claude installieren
 
 ```
 Einstellungen → Skills → Skill hinzufügen → .skill-Datei hochladen
 ```
-
-### 3. Skill-Navigator öffnen
-
-👉 **[Interaktiver Skill-Navigator](https://your-username.github.io/it-skill-library/skill-navigator.html)** — findet den richtigen Skill für deine Situation.
 
 ---
 
@@ -48,8 +45,6 @@ Einstellungen → Skills → Skill hinzufügen → .skill-Datei hochladen
 ---
 
 ## 🎯 Anwendungsfälle
-
-### Nach Situation
 
 | Ich brauche... | Empfohlene Skills |
 |----------------|-------------------|
@@ -75,8 +70,7 @@ Einstellungen → Skills → Skill hinzufügen → .skill-Datei hochladen
 | **BSI IT-Grundschutz** | IT Compliance, IT Comprehensive Security |
 | **ISO 27001:2022** | IT Compliance, IT Comprehensive Security |
 | **KRITIS-Dachgesetz** | IT Compliance, IT Comprehensive Security, OT/ICS |
-| **DORA** | IT Comprehensive Security (Finance-Modul) |
-| **BAIT / VAIT / MaRisk** | IT Comprehensive Security (Finance-Modul) |
+| **DORA / BAIT / MaRisk** | IT Comprehensive Security (Finance-Modul) |
 | **IEC 62443** | OT/ICS Security, IT Comprehensive Security |
 | **EU GMP Annex 11 / GAMP 5** | IT Comprehensive Security (Pharma-Modul) |
 | **TISAX / VDA ISA** | IT Comprehensive Security (Manufacturing-Modul) |
@@ -88,18 +82,16 @@ Einstellungen → Skills → Skill hinzufügen → .skill-Datei hochladen
 ## 📁 Repository-Struktur
 
 ```
-it-skill-library/
+IT-Skill-Library/
 ├── README.md
 ├── LICENSE
 ├── CONTRIBUTING.md
 ├── skill-navigator.html          # Interaktiver Navigator (GitHub Pages)
+├── index.html                    # Redirect → skill-navigator.html
 ├── skills/
 │   ├── it-comprehensive-security/
-│   │   ├── SKILL.md              # Skill-Konfiguration
-│   │   └── references/           # Referenzmodule (Markdown)
-│   │       ├── cloud-security.md
-│   │       ├── healthcare-security.md
-│   │       └── ...
+│   │   ├── SKILL.md
+│   │   └── references/
 │   ├── m365-admin-skill/
 │   ├── devops-cicd-skill/
 │   ├── linux-sysadmin-skill/
@@ -114,19 +106,22 @@ it-skill-library/
     │   ├── skill-request.md
     │   └── bug-report.md
     └── workflows/
-        └── validate-skills.yml   # CI: Skill-Validierung
+        ├── validate-skills.yml   # CI: Skill-Validierung bei jedem Push
+        ├── deploy-pages.yml      # GitHub Pages automatisch deployen
+        └── create-release.yml   # .skill-Pakete bei Tag automatisch bauen
 ```
 
 ---
 
 ## 🤝 Beitragen
 
-Feedback, Korrekturen und neue Module sind willkommen! Bitte lies zuerst [CONTRIBUTING.md](CONTRIBUTING.md).
+Feedback, Korrekturen und neue Module sind willkommen!
 
-**Schnell beitragen:**
-- 🐛 [Bug melden](../../issues/new?template=bug-report.md)
-- 💡 [Neuen Skill vorschlagen](../../issues/new?template=skill-request.md)
-- 📝 [Referenzmodul verbessern](../../pulls)
+- 🐛 [Bug melden](https://github.com/azarisa0678/IT-Skill-Library/issues/new?template=bug-report.md)
+- 💡 [Neuen Skill vorschlagen](https://github.com/azarisa0678/IT-Skill-Library/issues/new?template=skill-request.md)
+- 📝 [Pull Request öffnen](https://github.com/azarisa0678/IT-Skill-Library/pulls)
+
+Bitte lies zuerst [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ---
 
