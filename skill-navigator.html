@@ -5,146 +5,99 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>IT Skill Library — Navigator</title>
 <style>
-:root {
-  --bg: #0f172a; --surface: #1e293b; --surface2: #334155;
-  --border: #475569; --text: #f1f5f9; --muted: #94a3b8;
-  --accent: #3b82f6; --accent2: #06b6d4;
-}
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; min-height: 100vh; }
-
-/* Header */
-.header { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border-bottom: 1px solid var(--border); padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; }
-.header h1 { font-size: 1.25rem; font-weight: 700; }
-.header h1 span { color: var(--accent); }
-.badge { background: var(--accent); color: white; font-size: 0.7rem; padding: 2px 8px; border-radius: 999px; font-weight: 600; }
-
-/* Nav */
-.nav { display: flex; gap: 4px; padding: 12px 24px; background: var(--surface); border-bottom: 1px solid var(--border); overflow-x: auto; }
-.nav-btn { padding: 6px 14px; border: 1px solid var(--border); border-radius: 6px; background: transparent; color: var(--muted); cursor: pointer; font-size: 0.8rem; white-space: nowrap; transition: all 0.15s; }
-.nav-btn:hover { border-color: var(--accent); color: var(--text); }
-.nav-btn.active { background: var(--accent); border-color: var(--accent); color: white; }
-
-/* Search */
-.search-bar { padding: 12px 24px; background: var(--surface); border-bottom: 1px solid var(--border); }
-.search-input { width: 100%; padding: 8px 14px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-size: 0.85rem; outline: none; }
-.search-input:focus { border-color: var(--accent); }
-
-/* Main */
-.main { padding: 24px; max-width: 1400px; margin: 0 auto; }
-
-/* Cards */
-.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
-.card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 18px; cursor: pointer; transition: all 0.2s; position: relative; overflow: hidden; }
-.card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 4px 20px rgba(59,130,246,0.15); }
-.card-accent { position: absolute; top: 0; left: 0; right: 0; height: 3px; }
-.card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
-.card-icon { font-size: 1.5rem; }
-.card-title { font-weight: 600; font-size: 0.95rem; }
-.card-meta { font-size: 0.72rem; color: var(--muted); }
-.card-desc { font-size: 0.8rem; color: var(--muted); line-height: 1.5; margin-bottom: 12px; }
-.card-stats { display: flex; gap: 16px; font-size: 0.72rem; color: var(--muted); }
-.stat { display: flex; align-items: center; gap: 4px; }
-.stat strong { color: var(--text); }
-.tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 10px; }
-.tag { font-size: 0.65rem; padding: 2px 7px; border-radius: 4px; background: var(--surface2); color: var(--muted); border: 1px solid var(--border); }
-.sector-tag { border-color: #f59e0b44; color: #f59e0b; }
-
-/* Detail Panel */
-.detail { display: none; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 24px; margin-bottom: 20px; }
-.detail.show { display: block; }
-.detail h2 { font-size: 1.2rem; margin-bottom: 4px; }
-.detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 16px; }
-.detail-section h3 { font-size: 0.8rem; color: var(--accent2); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; }
-.module-list { display: flex; flex-direction: column; gap: 4px; }
-.module-item { font-size: 0.78rem; padding: 4px 8px; background: var(--surface2); border-radius: 4px; display: flex; align-items: center; gap: 6px; }
-.module-item::before { content: "📄"; font-size: 0.7rem; }
-.use-case-item { font-size: 0.78rem; padding: 4px 8px; background: var(--surface2); border-radius: 4px; border-left: 2px solid var(--accent); }
-.close-btn { float: right; background: var(--surface2); border: 1px solid var(--border); color: var(--muted); padding: 4px 10px; border-radius: 4px; cursor: pointer; font-size: 0.75rem; }
-.close-btn:hover { color: var(--text); border-color: var(--accent); }
-
-/* Matrix View */
-.matrix-table { width: 100%; border-collapse: collapse; font-size: 0.75rem; }
-.matrix-table th, .matrix-table td { padding: 8px 10px; text-align: left; border: 1px solid var(--border); }
-.matrix-table th { background: var(--surface2); color: var(--accent2); font-weight: 600; }
-.matrix-table tr:hover td { background: var(--surface2); }
-.matrix-table td:first-child { font-weight: 600; white-space: nowrap; }
-.check { color: #22c55e; }
-.dash { color: var(--border); }
-
-/* Combinations */
-.combo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 14px; }
-.combo-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
-.combo-title { font-weight: 600; font-size: 0.9rem; margin-bottom: 6px; color: var(--accent2); }
-.combo-desc { font-size: 0.78rem; color: var(--muted); margin-bottom: 10px; line-height: 1.5; }
-.combo-skills { display: flex; flex-wrap: wrap; gap: 6px; }
-.combo-skill { font-size: 0.7rem; padding: 3px 8px; border-radius: 4px; font-weight: 500; color: white; }
-
-/* Roadmap */
-.roadmap { display: flex; flex-direction: column; gap: 12px; }
-.roadmap-item { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; display: flex; align-items: flex-start; gap: 14px; }
-.roadmap-icon { font-size: 1.3rem; flex-shrink: 0; }
-.roadmap-title { font-weight: 600; font-size: 0.88rem; margin-bottom: 3px; }
-.roadmap-desc { font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
-.roadmap-badge { font-size: 0.65rem; padding: 2px 7px; border-radius: 4px; font-weight: 600; }
-.phase-header { font-size: 0.75rem; color: var(--accent2); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 16px; margin-bottom: 6px; padding-left: 4px; }
-
-/* Finder */
-.finder-form { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-bottom: 20px; }
-.finder-q { font-weight: 600; margin-bottom: 10px; font-size: 0.9rem; }
-.finder-options { display: flex; flex-wrap: wrap; gap: 8px; }
-.finder-opt { padding: 6px 14px; border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.8rem; transition: all 0.15s; }
-.finder-opt:hover, .finder-opt.sel { border-color: var(--accent); background: var(--accent); color: white; }
-.finder-results { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px; }
-.finder-result-item { padding: 10px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px; }
-.finder-result-item:last-child { border-bottom: none; }
-.result-score { font-size: 0.7rem; padding: 2px 7px; border-radius: 4px; background: var(--accent); color: white; font-weight: 600; }
-.hidden { display: none; }
-.empty-state { text-align: center; color: var(--muted); padding: 40px; font-size: 0.85rem; }
+:root{--bg:#0f172a;--surface:#1e293b;--surface2:#334155;--border:#475569;--text:#f1f5f9;--muted:#94a3b8;--accent:#3b82f6;--accent2:#06b6d4}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;min-height:100vh}
+.header{background:linear-gradient(135deg,#1e293b,#0f172a);border-bottom:1px solid var(--border);padding:16px 24px;display:flex;align-items:center;justify-content:space-between}
+.header h1{font-size:1.25rem;font-weight:700}.header h1 span{color:var(--accent)}
+.badge{background:var(--accent);color:white;font-size:.7rem;padding:2px 8px;border-radius:999px;font-weight:600}
+.nav{display:flex;gap:4px;padding:12px 24px;background:var(--surface);border-bottom:1px solid var(--border);overflow-x:auto}
+.nav-btn{padding:6px 14px;border:1px solid var(--border);border-radius:6px;background:transparent;color:var(--muted);cursor:pointer;font-size:.8rem;white-space:nowrap;transition:all .15s}
+.nav-btn:hover{border-color:var(--accent);color:var(--text)}.nav-btn.active{background:var(--accent);border-color:var(--accent);color:white}
+.search-bar{padding:12px 24px;background:var(--surface);border-bottom:1px solid var(--border)}
+.search-input{width:100%;padding:8px 14px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:.85rem;outline:none}
+.search-input:focus{border-color:var(--accent)}
+.main{padding:24px;max-width:1400px;margin:0 auto}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:18px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
+.card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 4px 20px rgba(59,130,246,.15)}
+.card-accent{position:absolute;top:0;left:0;right:0;height:3px}
+.card-header{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.card-icon{font-size:1.5rem}.card-title{font-weight:600;font-size:.95rem}.card-meta{font-size:.72rem;color:var(--muted)}
+.card-desc{font-size:.8rem;color:var(--muted);line-height:1.5;margin-bottom:12px}
+.card-stats{display:flex;gap:16px;font-size:.72rem;color:var(--muted)}
+.tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:10px}
+.tag{font-size:.65rem;padding:2px 7px;border-radius:4px;background:var(--surface2);color:var(--muted);border:1px solid var(--border)}
+.sector-tag{border-color:#f59e0b44;color:#f59e0b}
+.detail{display:none;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:24px;margin-bottom:20px}
+.detail.show{display:block}
+.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:16px}
+.detail-section h3{font-size:.8rem;color:var(--accent2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
+.module-list{display:flex;flex-direction:column;gap:4px}
+.module-item{font-size:.78rem;padding:4px 8px;background:var(--surface2);border-radius:4px}
+.use-case-item{font-size:.78rem;padding:4px 8px;background:var(--surface2);border-radius:4px;border-left:2px solid var(--accent)}
+.close-btn{float:right;background:var(--surface2);border:1px solid var(--border);color:var(--muted);padding:4px 10px;border-radius:4px;cursor:pointer;font-size:.75rem}
+.close-btn:hover{color:var(--text);border-color:var(--accent)}
+.matrix-table{width:100%;border-collapse:collapse;font-size:.75rem}
+.matrix-table th,.matrix-table td{padding:8px 10px;text-align:left;border:1px solid var(--border)}
+.matrix-table th{background:var(--surface2);color:var(--accent2);font-weight:600}
+.matrix-table tr:hover td{background:var(--surface2)}
+.check{color:#22c55e}.dash{color:var(--border)}
+.combo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:14px}
+.combo-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px}
+.combo-title{font-weight:600;font-size:.9rem;margin-bottom:6px;color:var(--accent2)}
+.combo-desc{font-size:.78rem;color:var(--muted);margin-bottom:10px;line-height:1.5}
+.combo-skills{display:flex;flex-wrap:wrap;gap:6px}
+.combo-skill{font-size:.7rem;padding:3px 8px;border-radius:4px;font-weight:500;color:white}
+.roadmap-item{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:14px 18px;display:flex;align-items:flex-start;gap:14px;margin-bottom:10px}
+.roadmap-icon{font-size:1.3rem;flex-shrink:0}
+.roadmap-title{font-weight:600;font-size:.88rem;margin-bottom:3px}
+.roadmap-desc{font-size:.78rem;color:var(--muted);line-height:1.5}
+.roadmap-badge{font-size:.65rem;padding:2px 7px;border-radius:4px;font-weight:600}
+.phase-header{font-size:.75rem;color:var(--accent2);text-transform:uppercase;letter-spacing:.08em;margin:16px 0 6px;padding-left:4px}
+.finder-form{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:20px;margin-bottom:20px}
+.finder-options{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.finder-opt{padding:6px 14px;border:1px solid var(--border);border-radius:6px;cursor:pointer;font-size:.8rem;transition:all .15s}
+.finder-opt:hover,.finder-opt.sel{border-color:var(--accent);background:var(--accent);color:white}
+.finder-results{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:20px}
+.finder-result-item{padding:10px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px}
+.finder-result-item:last-child{border-bottom:none}
+.result-score{font-size:.7rem;padding:2px 7px;border-radius:4px;background:var(--accent);color:white;font-weight:600}
+.hidden{display:none}
+.empty-state{text-align:center;color:var(--muted);padding:40px;font-size:.85rem}
 </style>
 </head>
 <body>
-
 <div class="header">
   <h1>🗂️ IT Skill Library <span>Navigator</span></h1>
   <div style="display:flex;gap:8px;align-items:center">
     <span class="badge">10 Skills</span>
     <span class="badge" style="background:#16a34a">86 Module</span>
-    <span class="badge" style="background:#7c3aed">~1.4 MB</span>
+    <a href="https://github.com/azarisa0678/IT-Skill-Library/releases" target="_blank"
+       style="font-size:.7rem;padding:2px 8px;border-radius:999px;background:#7c3aed;color:white;text-decoration:none">⬇ Downloads</a>
   </div>
 </div>
-
 <div class="nav">
-  <button class="nav-btn active" onclick="showView('overview')">📊 Übersicht</button>
-  <button class="nav-btn" onclick="showView('finder')">🔍 Skill-Finder</button>
-  <button class="nav-btn" onclick="showView('matrix')">📋 Matrix</button>
-  <button class="nav-btn" onclick="showView('combinations')">🔗 Kombinationen</button>
-  <button class="nav-btn" onclick="showView('dependencies')">🕸️ Abhängigkeiten</button>
-  <button class="nav-btn" onclick="showView('roadmap')">🗺️ Roadmap</button>
+  <button class="nav-btn active" onclick="showView('overview',this)">📊 Übersicht</button>
+  <button class="nav-btn" onclick="showView('finder',this)">🔍 Skill-Finder</button>
+  <button class="nav-btn" onclick="showView('matrix',this)">📋 Matrix</button>
+  <button class="nav-btn" onclick="showView('combinations',this)">🔗 Kombinationen</button>
+  <button class="nav-btn" onclick="showView('dependencies',this)">🕸️ Abhängigkeiten</button>
+  <button class="nav-btn" onclick="showView('roadmap',this)">🗺️ Roadmap</button>
 </div>
-
 <div class="search-bar" id="searchBar">
-  <input class="search-input" type="text" placeholder="Skill, Modul oder Trigger-Keyword suchen…" oninput="filterSkills(this.value)" id="searchInput">
+  <input class="search-input" type="text" placeholder="Skill, Modul oder Trigger-Keyword suchen…" oninput="filterSkills(this.value)">
 </div>
-
 <div class="main">
-
-<!-- DETAIL PANEL -->
 <div class="detail" id="detailPanel">
   <button class="close-btn" onclick="closeDetail()">✕ Schließen</button>
   <div id="detailContent"></div>
 </div>
-
-<!-- OVERVIEW -->
-<div id="view-overview">
-  <div class="grid" id="skillGrid"></div>
-</div>
-
-<!-- FINDER -->
+<div id="view-overview"><div class="grid" id="skillGrid"></div></div>
 <div id="view-finder" class="hidden">
   <div class="finder-form">
-    <div class="finder-q">Was ist deine Situation?</div>
-    <div class="finder-options" id="finderOptions">
+    <div style="font-weight:600;font-size:.9rem">Was ist deine Situation?</div>
+    <div class="finder-options">
       <div class="finder-opt" onclick="toggleFinder(this,'security')">🔒 Security-Problem</div>
       <div class="finder-opt" onclick="toggleFinder(this,'compliance')">📋 Compliance / Audit</div>
       <div class="finder-opt" onclick="toggleFinder(this,'microsoft')">🪟 Microsoft-Umgebung</div>
@@ -160,304 +113,249 @@ body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', syste
       <div class="finder-opt" onclick="toggleFinder(this,'finance')">🏦 Finance / Bank</div>
     </div>
   </div>
-  <div class="finder-results">
-    <div id="finderResults"><div class="empty-state">👆 Wähle eine oder mehrere Situationen</div></div>
-  </div>
+  <div class="finder-results"><div id="finderResults"><div class="empty-state">👆 Wähle eine oder mehrere Situationen</div></div></div>
 </div>
-
-<!-- MATRIX -->
-<div id="view-matrix" class="hidden">
-  <div style="overflow-x:auto">
-  <table class="matrix-table" id="matrixTable"></table>
-  </div>
+<div id="view-matrix" class="hidden"><div style="overflow-x:auto"><table class="matrix-table" id="matrixTable"></table></div></div>
+<div id="view-combinations" class="hidden"><div class="combo-grid" id="comboGrid"></div></div>
+<div id="view-dependencies" class="hidden"><div id="depsContent"></div></div>
+<div id="view-roadmap" class="hidden"><div id="roadmapContent"></div></div>
 </div>
-
-<!-- COMBINATIONS -->
-<div id="view-combinations" class="hidden">
-  <div class="combo-grid" id="comboGrid"></div>
-</div>
-
-<!-- DEPENDENCIES -->
-<div id="view-dependencies" class="hidden">
-  <div id="depsContent"></div>
-</div>
-
-<!-- ROADMAP -->
-<div id="view-roadmap" class="hidden">
-  <div class="roadmap" id="roadmapContent"></div>
-</div>
-
-</div><!-- /main -->
 
 <script>
-// ─── DATA ────────────────────────────────────────────────────────────────────
-const SKILLS = [
-  { id:"it-comprehensive-security", name:"IT Comprehensive Security", icon:"🛡️", color:"#dc2626", modules:24, size:"296 KB", desc:"Full-spectrum IT security — pentesting, IR, SIEM, Sigma, Compliance, Multi-Sektor", tags:["Security","Compliance","DACH","Multi-Sektor"], sectors:["Healthcare","Finance","Energy","Public Sector","Pharma","Manufacturing"], refs:["cloud-security","compliance-frameworks","container-kubernetes","forensics-malware","german-templates","healthcare-security","finance-security","energy-security","public-sector","pharma-security","manufacturing-security","mitre-attack","nis2-dora","ot-ics-security","owasp-top10","phishing-social-engineering","powershell-security","secure-code-review","security-metrics","siem-detection","threat-intelligence","zero-trust","example-reports","prompt-library"], triggers:["pentest","IR","SIEM","Sigma","NIS2","DORA","KRITIS","Krankenhaus","TISAX","GxP","Ransomware","forensics"], deps:[], cats:["security","compliance","dach","healthcare","finance","ot"] },
-  { id:"m365-admin-skill", name:"M365 Admin", icon:"🪟", color:"#0078d4", modules:13, size:"328 KB", desc:"Microsoft 365 Admin — Entra ID, Intune, Exchange, SharePoint, Defender, PAM", tags:["Microsoft","Cloud","Identity","PAM"], sectors:[], refs:["entra-id","intune-endpoint","hybrid-exchange","sharepoint-onedrive","defender-suite","m365-powershell","windows-server-ad","azure-iaas","lizenz-kosten","troubleshooting","architekturen-templates","prompt-bibliothek","identity-pam"], triggers:["Entra","Intune","Autopilot","Exchange","SharePoint","Defender","CyberArk","LAPS","PIM","MFA"], deps:["powershell-skill"], cats:["microsoft","security","cloud","automation"] },
-  { id:"devops-cicd-skill", name:"DevOps & CI/CD", icon:"⚙️", color:"#16a34a", modules:9, size:"132 KB", desc:"CI/CD Pipelines, GitOps, IaC, SRE, Observability, Supply Chain Security", tags:["DevOps","Platform","Security","Cloud"], sectors:[], refs:["github-actions","terraform-iac","kubernetes-helm","gitops","observability","sre-practices","gitlab-azdo","supply-chain-security","evals"], triggers:["GitHub Actions","Terraform","Helm","ArgoCD","Flux","SLO","SBOM","Cosign","SLSA","Syft","GitLab CI"], deps:["cloud-architecture-skill"], cats:["devops","security","cloud","automation"] },
-  { id:"linux-sysadmin-skill", name:"Linux Sysadmin", icon:"🐧", color:"#ca8a04", modules:8, size:"140 KB", desc:"Linux-Administration — Bash, systemd, Härtung, Monitoring, Ansible, Storage", tags:["Linux","Infrastructure","Automation","Security"], sectors:[], refs:["bash-scripting","linux-hardening","systemd","linux-monitoring","linux-network","linux-storage","ansible","evals"], triggers:["Bash","systemd","SSH","SELinux","AppArmor","Ansible","LVM","RAID","restic","BorgBackup","auditd"], deps:[], cats:["linux","security","automation"] },
-  { id:"backup-dr-skill", name:"Backup & DR", icon:"💾", color:"#7c3aed", modules:4, size:"64 KB", desc:"Backup-Strategien, Veeam, Cloud-Backup, DR-Planung, BCP, Ransomware-Schutz", tags:["Backup","DR","Resilience","Cloud"], sectors:[], refs:["veeam","cloud-backup","linux-backup","dr-bcp"], triggers:["Veeam","restic","Wasabi","RPO","RTO","DR-Test","BCP","Ransomware Backup","3-2-1","Hardened Repo"], deps:[], cats:["backup","security","cloud"] },
-  { id:"network-engineering-skill", name:"Network Engineering", icon:"🌐", color:"#0891b2", modules:6, size:"112 KB", desc:"Cisco, BGP/OSPF, Palo Alto/FortiGate, Spine-Leaf, SD-WAN, NetFlow", tags:["Network","Infrastructure","Security","Firewall"], sectors:[], refs:["cisco-ios","routing-protocols","firewall-config","network-design","network-monitoring","evals"], triggers:["BGP","OSPF","Cisco","Palo Alto","FortiGate","VLAN","Spine-Leaf","SD-WAN","NetFlow","LACP"], deps:[], cats:["network","security"] },
-  { id:"it-compliance-skill", name:"IT Compliance", icon:"📋", color:"#be123c", modules:9, size:"144 KB", desc:"DSGVO, BSI IT-Grundschutz, ISO 27001, NIS2, KRITIS — Deutsche Vorlagen", tags:["Compliance","DSGVO","ISO27001","DACH","NIS2"], sectors:[], refs:["dsgvo-vvt","bsi-grundschutz","iso27001-audit","nis2-kritis"], triggers:["DSGVO","VVT","Datenpanne","BSI Grundschutz","ISO 27001","SoA","NIS2","KRITIS","Audit","DSB"], deps:[], cats:["compliance","dach","security"] },
-  { id:"powershell-skill", name:"PowerShell", icon:"⚡", color:"#1d4ed8", modules:5, size:"72 KB", desc:"PowerShell-Automatisierung — AD, Graph API, JEA, Code-Signing, REST, Reporting", tags:["PowerShell","Automation","Microsoft","Security"], sectors:[], refs:["ps-security","ps-ad-entra","ps-automation"], triggers:["PowerShell","JEA","CLM","Graph API","Active Directory","Code-Signing","SecureString","WinRM"], deps:[], cats:["microsoft","automation","security"] },
-  { id:"cloud-architecture-skill", name:"Cloud Architecture", icon:"☁️", color:"#ea580c", modules:5, size:"44 KB", desc:"Well-Architected, Landing Zone, FinOps, K8s Security, Serverless, HA/DR", tags:["Cloud","AWS","Azure","GCP","FinOps","Kubernetes"], sectors:[], refs:["well-architected","cloud-security","ha-dr","finops","serverless-k8s-security"], triggers:["Well-Architected","Landing Zone","CSPM","Checkov","Multi-Region","FinOps","Savings Plans","Lambda","Kubernetes Security","Falco"], deps:["devops-cicd-skill"], cats:["cloud","security","devops"] },
-  { id:"ot-ics-skill", name:"OT/ICS Security", icon:"🏭", color:"#854d0e", modules:3, size:"40 KB", desc:"OT-Protokolle, IEC 62443, Nozomi/Claroty, KRITIS, IR Playbooks", tags:["OT","ICS","KRITIS","IEC62443","Industry"], sectors:["Energy","Manufacturing","Water"], refs:["ot-protocols","ot-monitoring","iec62443"], triggers:["Modbus","OPC UA","IEC 61850","GOOSE","Nozomi","Claroty","IEC 62443","KRITIS","SPS","SCADA"], deps:["it-comprehensive-security"], cats:["ot","security","compliance"] }
+const SKILLS=[
+  {id:"it-comprehensive-security",name:"IT Comprehensive Security",icon:"🛡️",color:"#dc2626",modules:24,size:"296 KB",desc:"Full-spectrum IT Security — Pentesting, IR, SIEM, Sigma, Healthcare, Finance, Energy, Pharma, OT",tags:["Security","Compliance","DACH","Multi-Sektor"],sectors:["Healthcare","Finance","Energy","Public Sector","Pharma","Manufacturing"],refs:["cloud-security","compliance-frameworks","container-kubernetes","forensics-malware","german-templates","healthcare-security","finance-security","energy-security","public-sector","pharma-security","manufacturing-security","mitre-attack","nis2-dora","ot-ics-security","owasp-top10","phishing-social-engineering","powershell-security","secure-code-review","security-metrics","siem-detection","threat-intelligence","zero-trust","example-reports","prompt-library"],cats:["security","compliance","dach","healthcare","finance","ot"],deps:[]},
+  {id:"m365-admin-skill",name:"M365 Admin",icon:"🪟",color:"#0078d4",modules:13,size:"328 KB",desc:"Microsoft 365 Admin — Entra ID, Intune, Exchange, SharePoint, PAM, Defender, CyberArk, LAPS",tags:["Microsoft","Cloud","Identity","PAM"],sectors:[],refs:["entra-id","intune-endpoint","hybrid-exchange","sharepoint-onedrive","defender-suite","m365-powershell","windows-server-ad","azure-iaas","lizenz-kosten","troubleshooting","architekturen-templates","prompt-bibliothek","identity-pam"],cats:["microsoft","security","cloud","automation"],deps:["powershell-skill"]},
+  {id:"devops-cicd-skill",name:"DevOps & CI/CD",icon:"⚙️",color:"#16a34a",modules:9,size:"132 KB",desc:"CI/CD Pipelines, GitOps, Terraform, SRE, Observability, Supply Chain Security",tags:["DevOps","Platform","Security","Cloud"],sectors:[],refs:["github-actions","terraform-iac","kubernetes-helm","gitops","observability","sre-practices","gitlab-azdo","supply-chain-security","evals"],cats:["devops","security","cloud","automation"],deps:["cloud-architecture-skill"]},
+  {id:"linux-sysadmin-skill",name:"Linux Sysadmin",icon:"🐧",color:"#ca8a04",modules:8,size:"140 KB",desc:"Linux-Administration — Bash, systemd, Härtung, Ansible, restic, BorgBackup, Monitoring",tags:["Linux","Infrastructure","Automation","Security"],sectors:[],refs:["bash-scripting","linux-hardening","systemd","linux-monitoring","linux-network","linux-storage","ansible","evals"],cats:["linux","security","automation"],deps:[]},
+  {id:"backup-dr-skill",name:"Backup & DR",icon:"💾",color:"#7c3aed",modules:4,size:"64 KB",desc:"Backup-Strategien, Veeam, Cloud-Backup, DR-Planung, BCP, Ransomware-Schutz",tags:["Backup","DR","Resilience","Cloud"],sectors:[],refs:["veeam","cloud-backup","linux-backup","dr-bcp"],cats:["backup","security","cloud"],deps:[]},
+  {id:"network-engineering-skill",name:"Network Engineering",icon:"🌐",color:"#0891b2",modules:6,size:"112 KB",desc:"Cisco, BGP/OSPF, Palo Alto/FortiGate, Spine-Leaf, SD-WAN, NetFlow",tags:["Network","Infrastructure","Security","Firewall"],sectors:[],refs:["cisco-ios","routing-protocols","firewall-config","network-design","network-monitoring","evals"],cats:["network","security"],deps:[]},
+  {id:"it-compliance-skill",name:"IT Compliance",icon:"📋",color:"#be123c",modules:9,size:"144 KB",desc:"DSGVO, BSI IT-Grundschutz, ISO 27001, NIS2, KRITIS — Deutsche Vorlagen",tags:["Compliance","DSGVO","ISO27001","DACH","NIS2"],sectors:[],refs:["dsgvo-vvt","bsi-grundschutz","iso27001-audit","nis2-kritis"],cats:["compliance","dach","security"],deps:[]},
+  {id:"powershell-skill",name:"PowerShell",icon:"⚡",color:"#1d4ed8",modules:5,size:"72 KB",desc:"PowerShell-Automatisierung — AD, Graph API, JEA, Code-Signing, REST, Reporting",tags:["PowerShell","Automation","Microsoft","Security"],sectors:[],refs:["ps-security","ps-ad-entra","ps-automation"],cats:["microsoft","automation","security"],deps:[]},
+  {id:"cloud-architecture-skill",name:"Cloud Architecture",icon:"☁️",color:"#ea580c",modules:5,size:"44 KB",desc:"Well-Architected, Landing Zone, FinOps, K8s Security, Serverless, HA/DR",tags:["Cloud","AWS","Azure","GCP","FinOps","Kubernetes"],sectors:[],refs:["well-architected","cloud-security","ha-dr","finops","serverless-k8s-security"],cats:["cloud","security","devops"],deps:["devops-cicd-skill"]},
+  {id:"ot-ics-skill",name:"OT/ICS Security",icon:"🏭",color:"#854d0e",modules:3,size:"40 KB",desc:"OT-Protokolle, IEC 62443, Nozomi/Claroty, KRITIS, Incident Response OT",tags:["OT","ICS","KRITIS","IEC62443","Industry"],sectors:["Energy","Manufacturing","Water"],refs:["ot-protocols","ot-monitoring","iec62443"],cats:["ot","security","compliance"],deps:["it-comprehensive-security"]}
 ];
 
-const COMBOS = [
-  { title:"Zero Trust Rollout", desc:"Vollständiger Zero Trust Ansatz von Identity über Netzwerk bis Endpoint", skills:["it-comprehensive-security","m365-admin-skill","network-engineering-skill"] },
-  { title:"NIS2 Compliance DACH", desc:"Alle Pflichten nach NIS2 und KRITIS erfüllen — technisch und organisatorisch", skills:["it-compliance-skill","it-comprehensive-security","backup-dr-skill"] },
-  { title:"DevSecOps Platform", desc:"Sichere CI/CD Pipeline mit Supply Chain Security und Cloud-nativer Infrastruktur", skills:["devops-cicd-skill","cloud-architecture-skill","it-comprehensive-security"] },
-  { title:"Microsoft-Hybrid-Umgebung", desc:"AD + Entra ID + M365 + Azure IaaS vollständig administrieren", skills:["m365-admin-skill","powershell-skill","backup-dr-skill"] },
-  { title:"KRITIS Energie/Wasser", desc:"IT/OT-Sicherheit für Versorgungsinfrastruktur nach BSI und IEC 62443", skills:["ot-ics-skill","it-comprehensive-security","it-compliance-skill"] },
-  { title:"Krankenhaus IT-Sicherheit", desc:"Vollständige IT-Sicherheit für Krankenhäuser (KRITIS, NIS2, DSGVO Art. 9)", skills:["it-comprehensive-security","it-compliance-skill","backup-dr-skill"] },
-  { title:"Cloud Security Baseline", desc:"Sichere Cloud-Architektur mit FinOps, K8s Security und CSPM", skills:["cloud-architecture-skill","devops-cicd-skill","it-comprehensive-security"] },
-  { title:"Linux Server Farm", desc:"Massenweise Linux-Server automatisiert bereitstellen und absichern", skills:["linux-sysadmin-skill","powershell-skill","backup-dr-skill"] },
-  { title:"ISO 27001 Zertifizierung", desc:"ISMS aufbauen, dokumentieren und zertifizierungsreif machen", skills:["it-compliance-skill","it-comprehensive-security","powershell-skill"] },
-  { title:"Ransomware-Resilienz", desc:"Vollständiger Schutz vor Ransomware — Prävention, Backup, IR", skills:["backup-dr-skill","it-comprehensive-security","network-engineering-skill"] },
-  { title:"Manufacturing Security (Industrie 4.0)", desc:"Smart Factory absichern — IT/OT-Segmentierung, TISAX, IEC 62443", skills:["ot-ics-skill","it-comprehensive-security","network-engineering-skill"] },
-  { title:"Pharma GxP IT", desc:"Validierte Systeme, Audit Trails, CSV — regulatorische IT-Compliance", skills:["it-comprehensive-security","it-compliance-skill","backup-dr-skill"] }
+const COMBOS=[
+  {title:"Zero Trust Rollout",desc:"Vollständiger Zero Trust Ansatz von Identity über Netzwerk bis Endpoint",skills:["it-comprehensive-security","m365-admin-skill","network-engineering-skill"]},
+  {title:"NIS2 Compliance DACH",desc:"Alle Pflichten nach NIS2 und KRITIS erfüllen",skills:["it-compliance-skill","it-comprehensive-security","backup-dr-skill"]},
+  {title:"DevSecOps Platform",desc:"Sichere CI/CD Pipeline mit Supply Chain Security",skills:["devops-cicd-skill","cloud-architecture-skill","it-comprehensive-security"]},
+  {title:"Microsoft Hybrid",desc:"AD + Entra ID + M365 + Azure IaaS vollständig administrieren",skills:["m365-admin-skill","powershell-skill","backup-dr-skill"]},
+  {title:"KRITIS Energie/Wasser",desc:"IT/OT-Sicherheit für Versorgungsinfrastruktur",skills:["ot-ics-skill","it-comprehensive-security","it-compliance-skill"]},
+  {title:"Krankenhaus IT-Sicherheit",desc:"KRITIS, NIS2, DSGVO Art. 9 — vollständig",skills:["it-comprehensive-security","it-compliance-skill","backup-dr-skill"]},
+  {title:"Cloud Security Baseline",desc:"Sichere Cloud-Architektur mit FinOps und CSPM",skills:["cloud-architecture-skill","devops-cicd-skill","it-comprehensive-security"]},
+  {title:"Linux Server Farm",desc:"Massenweise Linux-Server automatisiert absichern",skills:["linux-sysadmin-skill","powershell-skill","backup-dr-skill"]},
+  {title:"ISO 27001 Zertifizierung",desc:"ISMS aufbauen und zertifizierungsreif machen",skills:["it-compliance-skill","it-comprehensive-security","powershell-skill"]},
+  {title:"Ransomware-Resilienz",desc:"Prävention, Backup, IR — vollständig",skills:["backup-dr-skill","it-comprehensive-security","network-engineering-skill"]},
+  {title:"Manufacturing Security",desc:"Smart Factory — IT/OT-Segmentierung, TISAX, IEC 62443",skills:["ot-ics-skill","it-comprehensive-security","network-engineering-skill"]},
+  {title:"Pharma GxP IT",desc:"Validierte Systeme, Audit Trails, CSV",skills:["it-comprehensive-security","it-compliance-skill","backup-dr-skill"]}
 ];
 
-const ROADMAP = [
-  { phase:"Foundations", items:[
-    { icon:"🛡️", title:"it-comprehensive-security", desc:"Größtes Skill-Paket — universeller Security-Baustein, immer zuerst aktivieren", status:"✅ Komplett (24 Module)" },
-    { icon:"📋", title:"it-compliance-skill", desc:"DSGVO/NIS2/ISO 27001 Vorlagen — Basis für alle Compliance-Aufgaben", status:"✅ Komplett (9 Module)" },
-    { icon:"💾", title:"backup-dr-skill", desc:"3-2-1-1-0, Veeam, Cloud-Backup, DR-Planung", status:"✅ Komplett (4 Module)" }
-  ]},
-  { phase:"Platform & Infrastructure", items:[
-    { icon:"🐧", title:"linux-sysadmin-skill", desc:"Bash, systemd, Härtung, Ansible, Monitoring", status:"✅ Komplett (8 Module)" },
-    { icon:"🌐", title:"network-engineering-skill", desc:"Cisco, BGP, Palo Alto, Netzwerk-Design", status:"✅ Komplett (6 Module)" },
-    { icon:"⚡", title:"powershell-skill", desc:"AD, Graph API, JEA, Code-Signing, Automatisierung", status:"✅ Komplett (5 Module)" }
-  ]},
-  { phase:"Microsoft & Cloud", items:[
-    { icon:"🪟", title:"m365-admin-skill", desc:"Entra ID, Intune, Exchange, SharePoint, PAM", status:"✅ Komplett (13 Module)" },
-    { icon:"☁️", title:"cloud-architecture-skill", desc:"Well-Architected, FinOps, K8s Security, Serverless", status:"✅ Komplett (5 Module)" },
-    { icon:"⚙️", title:"devops-cicd-skill", desc:"GitHub Actions, Terraform, GitOps, SRE, Supply Chain", status:"✅ Komplett (9 Module)" }
-  ]},
-  { phase:"Specialized", items:[
-    { icon:"🏭", title:"ot-ics-skill", desc:"OT-Protokolle, IEC 62443, Nozomi, KRITIS", status:"✅ Komplett (3 Module)" },
-    { icon:"🔮", title:"AI/ML Security Skill", desc:"Prompt Injection, Model Security, AI-Act, LLM-Sicherheit", status:"🗺️ Geplant" },
-    { icon:"🔮", title:"Threat Modeling Skill", desc:"STRIDE, PASTA, Attack Trees, DREAD für alle Umgebungen", status:"🗺️ Geplant" }
-  ]}
-];
+const FINDER_MAP={
+  security:["it-comprehensive-security","powershell-skill","network-engineering-skill"],
+  compliance:["it-compliance-skill","it-comprehensive-security"],
+  microsoft:["m365-admin-skill","powershell-skill"],
+  linux:["linux-sysadmin-skill","backup-dr-skill"],
+  cloud:["cloud-architecture-skill","devops-cicd-skill"],
+  devops:["devops-cicd-skill","cloud-architecture-skill","linux-sysadmin-skill"],
+  network:["network-engineering-skill","it-comprehensive-security"],
+  backup:["backup-dr-skill","linux-sysadmin-skill"],
+  ot:["ot-ics-skill","it-comprehensive-security","it-compliance-skill"],
+  automation:["powershell-skill","linux-sysadmin-skill","devops-cicd-skill"],
+  dach:["it-compliance-skill","it-comprehensive-security"],
+  healthcare:["it-comprehensive-security","it-compliance-skill","backup-dr-skill"],
+  finance:["it-comprehensive-security","it-compliance-skill"]
+};
 
-// ─── STATE ───────────────────────────────────────────────────────────────────
-let currentView = 'overview';
-let selectedFinder = new Set();
-let selectedSkill = null;
+const MATRIX_CATS=['Security','Compliance','Microsoft','Linux','Cloud','DevOps','Network','Backup','OT','Automation','DACH'];
+const SKILL_CAT_MAP={
+  'it-comprehensive-security':['Security','Compliance','DACH'],
+  'm365-admin-skill':['Security','Microsoft','Cloud','Automation'],
+  'devops-cicd-skill':['DevOps','Security','Cloud','Automation'],
+  'linux-sysadmin-skill':['Linux','Security','Automation'],
+  'backup-dr-skill':['Backup','Security','Cloud'],
+  'network-engineering-skill':['Network','Security'],
+  'it-compliance-skill':['Compliance','DACH','Security'],
+  'powershell-skill':['Microsoft','Automation','Security'],
+  'cloud-architecture-skill':['Cloud','Security','DevOps'],
+  'ot-ics-skill':['OT','Security','Compliance']
+};
 
-// ─── VIEWS ───────────────────────────────────────────────────────────────────
-function showView(view) {
-  document.querySelectorAll('[id^="view-"]').forEach(v => v.classList.add('hidden'));
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('view-' + view).classList.remove('hidden');
-  event.target.classList.add('active');
-  currentView = view;
-  document.getElementById('searchBar').style.display = view === 'overview' ? 'block' : 'none';
+let selectedFinder=new Set();
+
+function showView(view,btn){
+  document.querySelectorAll('[id^="view-"]').forEach(v=>v.classList.add('hidden'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('view-'+view).classList.remove('hidden');
+  btn.classList.add('active');
+  document.getElementById('searchBar').style.display=view==='overview'?'block':'none';
   closeDetail();
-  if (view === 'matrix') buildMatrix();
-  if (view === 'combinations') buildCombos();
-  if (view === 'dependencies') buildDeps();
-  if (view === 'roadmap') buildRoadmap();
+  if(view==='matrix')buildMatrix();
+  if(view==='combinations')buildCombos();
+  if(view==='dependencies')buildDeps();
+  if(view==='roadmap')buildRoadmap();
 }
 
-// ─── OVERVIEW ────────────────────────────────────────────────────────────────
-function buildGrid(skills) {
-  const grid = document.getElementById('skillGrid');
-  grid.innerHTML = skills.map(s => `
+function buildGrid(skills){
+  document.getElementById('skillGrid').innerHTML=skills.map(s=>`
     <div class="card" onclick="showDetail('${s.id}')">
       <div class="card-accent" style="background:${s.color}"></div>
       <div class="card-header">
         <div class="card-icon">${s.icon}</div>
-        <div>
-          <div class="card-title">${s.name}</div>
-          <div class="card-meta">${s.modules} Module · ${s.size}</div>
-        </div>
+        <div><div class="card-title">${s.name}</div><div class="card-meta">${s.modules} Module · ${s.size}</div></div>
       </div>
       <div class="card-desc">${s.desc}</div>
-      <div class="card-stats">
-        <div class="stat">📦 <strong>${s.modules}</strong> Ref-Module</div>
-        <div class="stat">💡 <strong>${s.triggers.slice(0,3).join(', ')}</strong></div>
-      </div>
+      <div class="card-stats"><span>📦 <strong>${s.modules}</strong> Module</span></div>
       <div class="tags">
-        ${s.tags.map(t => `<span class="tag">${t}</span>`).join('')}
-        ${s.sectors.map(t => `<span class="tag sector-tag">⚡${t}</span>`).join('')}
+        ${s.tags.map(t=>`<span class="tag">${t}</span>`).join('')}
+        ${s.sectors.map(t=>`<span class="tag sector-tag">⚡${t}</span>`).join('')}
       </div>
-    </div>
-  `).join('');
+    </div>`).join('');
 }
 
-function filterSkills(q) {
-  if (!q) { buildGrid(SKILLS); return; }
-  const ql = q.toLowerCase();
-  buildGrid(SKILLS.filter(s =>
-    s.name.toLowerCase().includes(ql) ||
-    s.desc.toLowerCase().includes(ql) ||
-    s.tags.some(t => t.toLowerCase().includes(ql)) ||
-    s.triggers.some(t => t.toLowerCase().includes(ql)) ||
-    s.refs.some(r => r.toLowerCase().includes(ql)) ||
-    s.sectors.some(t => t.toLowerCase().includes(ql))
+function filterSkills(q){
+  if(!q){buildGrid(SKILLS);return;}
+  const ql=q.toLowerCase();
+  buildGrid(SKILLS.filter(s=>
+    s.name.toLowerCase().includes(ql)||s.desc.toLowerCase().includes(ql)||
+    s.tags.some(t=>t.toLowerCase().includes(ql))||
+    s.refs.some(r=>r.toLowerCase().includes(ql))||
+    s.sectors.some(t=>t.toLowerCase().includes(ql))
   ));
 }
 
-// ─── DETAIL ──────────────────────────────────────────────────────────────────
-function showDetail(id) {
-  const s = SKILLS.find(x => x.id === id);
-  if (!s) return;
-  const deps = s.deps.map(d => { const ds = SKILLS.find(x=>x.id===d); return ds ? `${ds.icon} ${ds.name}` : d; });
-  const usedBy = SKILLS.filter(x => x.deps.includes(id)).map(x => `${x.icon} ${x.name}`);
-  document.getElementById('detailContent').innerHTML = `
+function showDetail(id){
+  const s=SKILLS.find(x=>x.id===id);if(!s)return;
+  const deps=s.deps.map(d=>{const ds=SKILLS.find(x=>x.id===d);return ds?`${ds.icon} ${ds.name}`:d;});
+  const usedBy=SKILLS.filter(x=>x.deps.includes(id)).map(x=>`${x.icon} ${x.name}`);
+  document.getElementById('detailContent').innerHTML=`
     <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
       <span style="font-size:2rem">${s.icon}</span>
-      <div>
-        <h2>${s.name}</h2>
-        <div style="font-size:0.8rem;color:var(--muted)">${s.modules} Referenzmodule · ${s.size} · ID: ${s.id}</div>
-      </div>
+      <div><h2 style="font-size:1.2rem">${s.name}</h2>
+      <div style="font-size:.8rem;color:var(--muted)">${s.modules} Module · ${s.size} · <code>${s.id}</code></div></div>
     </div>
-    <div style="font-size:0.85rem;color:var(--muted);margin-bottom:14px">${s.desc}</div>
+    <p style="font-size:.85rem;color:var(--muted);margin-bottom:14px">${s.desc}</p>
     <div class="detail-grid">
       <div class="detail-section">
-        <h3>Referenzmodule</h3>
-        <div class="module-list">${s.refs.map(r=>`<div class="module-item">${r}.md</div>`).join('')}</div>
+        <h3>Referenzmodule (${s.refs.length})</h3>
+        <div class="module-list">${s.refs.map(r=>`<div class="module-item">📄 ${r}.md</div>`).join('')}</div>
       </div>
       <div class="detail-section">
-        <h3>Trigger-Keywords</h3>
-        <div class="tags" style="margin-bottom:14px">${s.triggers.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
-        ${deps.length ? `<h3>Benötigt</h3><div style="margin-bottom:10px">${deps.map(d=>`<div class="use-case-item">${d}</div>`).join('')}</div>` : ''}
-        ${usedBy.length ? `<h3>Wird genutzt von</h3><div>${usedBy.map(d=>`<div class="use-case-item">${d}</div>`).join('')}</div>` : ''}
-        ${s.sectors.length ? `<h3 style="margin-top:10px">Sektoren</h3><div class="tags">${s.sectors.map(t=>`<span class="tag sector-tag">⚡${t}</span>`).join('')}</div>` : ''}
+        <h3>Tags</h3>
+        <div class="tags" style="margin-bottom:14px">
+          ${s.tags.map(t=>`<span class="tag">${t}</span>`).join('')}
+          ${s.sectors.map(t=>`<span class="tag sector-tag">⚡${t}</span>`).join('')}
+        </div>
+        ${deps.length?`<h3>Benötigt</h3><div style="margin-bottom:10px">${deps.map(d=>`<div class="use-case-item">${d}</div>`).join('')}</div>`:''}
+        ${usedBy.length?`<h3>Voraussetzung für</h3><div>${usedBy.map(d=>`<div class="use-case-item">${d}</div>`).join('')}</div>`:''}
+        <h3 style="margin-top:14px">Download</h3>
+        <a href="https://github.com/azarisa0678/IT-Skill-Library/releases" target="_blank"
+           style="display:inline-block;margin-top:6px;padding:6px 14px;background:var(--accent);color:white;border-radius:6px;text-decoration:none;font-size:.8rem">
+          ⬇ ${s.id}.skill herunterladen</a>
       </div>
-    </div>
-  `;
+    </div>`;
   document.getElementById('detailPanel').classList.add('show');
-  document.getElementById('detailPanel').scrollIntoView({behavior:'smooth', block:'nearest'});
+  document.getElementById('detailPanel').scrollIntoView({behavior:'smooth',block:'nearest'});
 }
 
-function closeDetail() { document.getElementById('detailPanel').classList.remove('show'); }
+function closeDetail(){document.getElementById('detailPanel').classList.remove('show');}
 
-// ─── FINDER ──────────────────────────────────────────────────────────────────
-const FINDER_MAP = {
-  security: ["it-comprehensive-security","powershell-skill","network-engineering-skill"],
-  compliance: ["it-compliance-skill","it-comprehensive-security"],
-  microsoft: ["m365-admin-skill","powershell-skill"],
-  linux: ["linux-sysadmin-skill","backup-dr-skill"],
-  cloud: ["cloud-architecture-skill","devops-cicd-skill"],
-  devops: ["devops-cicd-skill","cloud-architecture-skill","linux-sysadmin-skill"],
-  network: ["network-engineering-skill","it-comprehensive-security"],
-  backup: ["backup-dr-skill","linux-sysadmin-skill"],
-  ot: ["ot-ics-skill","it-comprehensive-security","it-compliance-skill"],
-  automation: ["powershell-skill","linux-sysadmin-skill","devops-cicd-skill"],
-  dach: ["it-compliance-skill","it-comprehensive-security"],
-  healthcare: ["it-comprehensive-security","it-compliance-skill","backup-dr-skill"],
-  finance: ["it-comprehensive-security","it-compliance-skill"]
-};
-
-function toggleFinder(el, cat) {
+function toggleFinder(el,cat){
   el.classList.toggle('sel');
-  if (selectedFinder.has(cat)) selectedFinder.delete(cat);
-  else selectedFinder.add(cat);
+  selectedFinder.has(cat)?selectedFinder.delete(cat):selectedFinder.add(cat);
   renderFinder();
 }
-
-function renderFinder() {
-  const res = document.getElementById('finderResults');
-  if (!selectedFinder.size) { res.innerHTML = '<div class="empty-state">👆 Wähle eine oder mehrere Situationen</div>'; return; }
-  const scores = {};
-  selectedFinder.forEach(cat => {
-    (FINDER_MAP[cat]||[]).forEach((id,i) => scores[id] = (scores[id]||0) + (3-i));
-  });
-  const ranked = Object.entries(scores).sort((a,b)=>b[1]-a[1]);
-  res.innerHTML = ranked.map(([id, score]) => {
-    const s = SKILLS.find(x=>x.id===id);
-    if (!s) return '';
-    const pct = Math.round(score / (selectedFinder.size * 3) * 100);
-    return `<div class="finder-result-item">
+function renderFinder(){
+  const res=document.getElementById('finderResults');
+  if(!selectedFinder.size){res.innerHTML='<div class="empty-state">👆 Wähle eine oder mehrere Situationen</div>';return;}
+  const scores={};
+  selectedFinder.forEach(cat=>(FINDER_MAP[cat]||[]).forEach((id,i)=>scores[id]=(scores[id]||0)+(3-i)));
+  const ranked=Object.entries(scores).sort((a,b)=>b[1]-a[1]);
+  res.innerHTML=ranked.map(([id,score])=>{
+    const s=SKILLS.find(x=>x.id===id);if(!s)return'';
+    const pct=Math.round(score/(selectedFinder.size*3)*100);
+    return`<div class="finder-result-item">
       <div style="font-size:1.3rem">${s.icon}</div>
-      <div style="flex:1">
-        <div style="font-weight:600;font-size:0.85rem">${s.name}</div>
-        <div style="font-size:0.75rem;color:var(--muted)">${s.desc}</div>
-      </div>
-      <div class="result-score">${pct}% Match</div>
-    </div>`;
+      <div style="flex:1"><div style="font-weight:600;font-size:.85rem">${s.name}</div>
+      <div style="font-size:.75rem;color:var(--muted)">${s.desc}</div></div>
+      <div class="result-score">${pct}% Match</div></div>`;
   }).join('');
 }
 
-// ─── MATRIX ──────────────────────────────────────────────────────────────────
-const MATRIX_CATS = ['Security','Compliance','Microsoft','Linux','Cloud','DevOps','Network','Backup','OT','Automation','DACH'];
-const SKILL_CAT_MAP = {
-  'it-comprehensive-security': ['Security','Compliance','DACH'],
-  'm365-admin-skill': ['Security','Microsoft','Cloud','Automation'],
-  'devops-cicd-skill': ['DevOps','Security','Cloud','Automation'],
-  'linux-sysadmin-skill': ['Linux','Security','Automation'],
-  'backup-dr-skill': ['Backup','Security','Cloud'],
-  'network-engineering-skill': ['Network','Security'],
-  'it-compliance-skill': ['Compliance','DACH','Security'],
-  'powershell-skill': ['Microsoft','Automation','Security'],
-  'cloud-architecture-skill': ['Cloud','Security','DevOps'],
-  'ot-ics-skill': ['OT','Security','Compliance']
-};
-function buildMatrix() {
-  const t = document.getElementById('matrixTable');
-  const header = `<tr><th>Skill</th>${MATRIX_CATS.map(c=>`<th>${c}</th>`).join('')}<th>Module</th></tr>`;
-  const rows = SKILLS.map(s => {
-    const cats = SKILL_CAT_MAP[s.id]||[];
-    return `<tr><td>${s.icon} ${s.name}</td>${MATRIX_CATS.map(c=>`<td class="${cats.includes(c)?'check':'dash'}">${cats.includes(c)?'✓':'·'}</td>`).join('')}<td>${s.modules}</td></tr>`;
-  });
-  t.innerHTML = header + rows.join('');
+function buildMatrix(){
+  document.getElementById('matrixTable').innerHTML=
+    `<tr><th>Skill</th>${MATRIX_CATS.map(c=>`<th>${c}</th>`).join('')}<th>Module</th></tr>`+
+    SKILLS.map(s=>{
+      const cats=SKILL_CAT_MAP[s.id]||[];
+      return`<tr><td>${s.icon} ${s.name}</td>${MATRIX_CATS.map(c=>`<td class="${cats.includes(c)?'check':'dash'}">${cats.includes(c)?'✓':'·'}</td>`).join('')}<td>${s.modules}</td></tr>`;
+    }).join('');
 }
 
-// ─── COMBINATIONS ────────────────────────────────────────────────────────────
-function buildCombos() {
-  document.getElementById('comboGrid').innerHTML = COMBOS.map(c => {
-    const skillObjs = c.skills.map(id => SKILLS.find(s=>s.id===id)).filter(Boolean);
-    return `<div class="combo-card">
+function buildCombos(){
+  document.getElementById('comboGrid').innerHTML=COMBOS.map(c=>{
+    const objs=c.skills.map(id=>SKILLS.find(s=>s.id===id)).filter(Boolean);
+    return`<div class="combo-card">
       <div class="combo-title">${c.title}</div>
       <div class="combo-desc">${c.desc}</div>
-      <div class="combo-skills">${skillObjs.map(s=>`<span class="combo-skill" style="background:${s.color}">${s.icon} ${s.name}</span>`).join('')}</div>
+      <div class="combo-skills">${objs.map(s=>`<span class="combo-skill" style="background:${s.color}">${s.icon} ${s.name}</span>`).join('')}</div>
     </div>`;
   }).join('');
 }
 
-// ─── DEPENDENCIES ────────────────────────────────────────────────────────────
-function buildDeps() {
-  const content = SKILLS.map(s => {
-    const deps = s.deps.map(d=>{ const ds=SKILLS.find(x=>x.id===d); return ds?`<span style="background:${ds.color};color:white;padding:2px 8px;border-radius:4px;font-size:0.72rem">${ds.icon} ${ds.name}</span>`:d; });
-    const usedBy = SKILLS.filter(x=>x.deps.includes(s.id)).map(x=>`<span style="background:${x.color};color:white;padding:2px 8px;border-radius:4px;font-size:0.72rem">${x.icon} ${x.name}</span>`);
-    return `<div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:10px">
+function buildDeps(){
+  document.getElementById('depsContent').innerHTML=SKILLS.map(s=>{
+    const deps=s.deps.map(d=>{const ds=SKILLS.find(x=>x.id===d);return ds?`<span style="background:${ds.color};color:white;padding:2px 8px;border-radius:4px;font-size:.72rem">${ds.icon} ${ds.name}</span>`:d;});
+    const usedBy=SKILLS.filter(x=>x.deps.includes(s.id)).map(x=>`<span style="background:${x.color};color:white;padding:2px 8px;border-radius:4px;font-size:.72rem">${x.icon} ${x.name}</span>`);
+    return`<div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:10px">
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
-        <span style="font-size:1.2rem">${s.icon}</span>
-        <strong>${s.name}</strong>
-        <span style="font-size:0.72rem;color:var(--muted)">(${s.modules} Module)</span>
+        <span style="font-size:1.2rem">${s.icon}</span><strong>${s.name}</strong>
+        <span style="font-size:.72rem;color:var(--muted)">(${s.modules} Module)</span>
       </div>
-      ${deps.length ? `<div style="margin-bottom:6px"><span style="font-size:0.72rem;color:var(--muted);margin-right:6px">Benötigt:</span>${deps.join(' ')}</div>` : ''}
-      ${usedBy.length ? `<div><span style="font-size:0.72rem;color:var(--muted);margin-right:6px">Voraussetzung für:</span>${usedBy.join(' ')}</div>` : '<div style="font-size:0.72rem;color:var(--muted)">Standalone — keine Abhängigkeiten</div>'}
+      ${deps.length?`<div style="margin-bottom:6px"><span style="font-size:.72rem;color:var(--muted);margin-right:6px">Benötigt:</span>${deps.join(' ')}</div>`:''}
+      ${usedBy.length?`<div><span style="font-size:.72rem;color:var(--muted);margin-right:6px">Voraussetzung für:</span>${usedBy.join(' ')}</div>`
+      :'<div style="font-size:.72rem;color:var(--muted)">Standalone — keine Abhängigkeiten</div>'}
     </div>`;
   }).join('');
-  document.getElementById('depsContent').innerHTML = content;
 }
 
-// ─── ROADMAP ─────────────────────────────────────────────────────────────────
-function buildRoadmap() {
-  const el = document.getElementById('roadmapContent');
-  el.innerHTML = ROADMAP.map(phase => `
-    <div class="phase-header">📍 Phase: ${phase.phase}</div>
-    ${phase.items.map(item => `
+function buildRoadmap(){
+  const phases=[
+    {phase:"Foundations",items:[
+      {icon:"🛡️",title:"it-comprehensive-security",desc:"Universeller Security-Baustein — 24 Module",status:"✅ Komplett"},
+      {icon:"📋",title:"it-compliance-skill",desc:"DSGVO/NIS2/ISO 27001 Vorlagen",status:"✅ Komplett"},
+      {icon:"💾",title:"backup-dr-skill",desc:"3-2-1-1-0, Veeam, Cloud-Backup, DR",status:"✅ Komplett"}
+    ]},
+    {phase:"Platform & Infrastructure",items:[
+      {icon:"🐧",title:"linux-sysadmin-skill",desc:"Bash, systemd, Härtung, Ansible",status:"✅ Komplett"},
+      {icon:"🌐",title:"network-engineering-skill",desc:"Cisco, BGP, Palo Alto, Netzwerk-Design",status:"✅ Komplett"},
+      {icon:"⚡",title:"powershell-skill",desc:"AD, Graph API, JEA, Code-Signing",status:"✅ Komplett"}
+    ]},
+    {phase:"Microsoft & Cloud",items:[
+      {icon:"🪟",title:"m365-admin-skill",desc:"Entra ID, Intune, Exchange, PAM",status:"✅ Komplett"},
+      {icon:"☁️",title:"cloud-architecture-skill",desc:"Well-Architected, FinOps, K8s Security",status:"✅ Komplett"},
+      {icon:"⚙️",title:"devops-cicd-skill",desc:"GitHub Actions, Terraform, GitOps, SRE",status:"✅ Komplett"}
+    ]},
+    {phase:"Specialized",items:[
+      {icon:"🏭",title:"ot-ics-skill",desc:"OT-Protokolle, IEC 62443, Nozomi, KRITIS",status:"✅ Komplett"},
+      {icon:"🔮",title:"AI/ML Security Skill",desc:"Prompt Injection, AI-Act, LLM-Sicherheit",status:"🗺️ Geplant"},
+      {icon:"🔮",title:"Threat Modeling Skill",desc:"STRIDE, PASTA, Attack Trees",status:"🗺️ Geplant"}
+    ]}
+  ];
+  document.getElementById('roadmapContent').innerHTML=phases.map(p=>`
+    <div class="phase-header">📍 Phase: ${p.phase}</div>
+    ${p.items.map(item=>`
       <div class="roadmap-item">
         <div class="roadmap-icon">${item.icon}</div>
         <div style="flex:1">
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
-            <div class="roadmap-title">${item.title}</div>
+            <strong style="font-size:.88rem">${item.title}</strong>
             <span class="roadmap-badge" style="background:${item.status.startsWith('✅')?'#16a34a':'#7c3aed'};color:white">${item.status}</span>
           </div>
-          <div class="roadmap-desc">${item.desc}</div>
+          <div style="font-size:.78rem;color:var(--muted)">${item.desc}</div>
         </div>
-      </div>
-    `).join('')}
+      </div>`).join('')}
   `).join('');
 }
 
-// ─── INIT ────────────────────────────────────────────────────────────────────
 buildGrid(SKILLS);
 </script>
 </body>
